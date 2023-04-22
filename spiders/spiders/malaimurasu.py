@@ -19,7 +19,6 @@ def clean(content):
     return content
 
 
-
 class MalaimurasuSpider(scrapy.Spider):
     name = "malaimurasu"
     allowed_domains = ["www.malaimurasu.com"]
@@ -41,7 +40,8 @@ class MalaimurasuSpider(scrapy.Spider):
             for article in response.xpath("//item"):
                 if article:
                     yield {
-                        "title": clean(article.xpath("title/text()").extract_first()),
+                        "processed_title": clean(article.xpath("title/text()").extract_first()),
+                        "title": article.xpath("title/text()").extract_first(),
                         "link": article.xpath("link/text()").extract_first(),
                         "pubDate": article.xpath("pubDate/text()").extract_first(),
                     }

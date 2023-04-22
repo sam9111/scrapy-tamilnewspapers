@@ -3,6 +3,7 @@ import scrapy
 
 import re
 
+
 def clean(content):
     if not content:
         return ""
@@ -17,7 +18,6 @@ def clean(content):
     content = re.sub(CLEAN_WHITE, " ", content)
     content = content.strip()
     return content
-
 
 
 class BbcSpider(scrapy.Spider):
@@ -39,7 +39,8 @@ class BbcSpider(scrapy.Spider):
                 if article:
                     print(article)
                     yield {
-                        "title": clean(article.xpath("title/text()").extract_first()),
+                        "processed_title": clean(article.xpath("title/text()").extract_first()),
+                        "title": article.xpath("title/text()").extract_first(),
                         "link": article.xpath("link/text()").extract_first(),
                         "pubDate": article.xpath("pubDate/text()").extract_first(),
                     }
